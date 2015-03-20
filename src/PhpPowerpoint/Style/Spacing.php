@@ -76,6 +76,17 @@ class Spacing implements ComparableInterface
 
         return $this;
     }
+
+    /**
+     * Convert to string
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return (string)$this->getSpacing();
+    }
+
     /**
     * Get hash code
     *

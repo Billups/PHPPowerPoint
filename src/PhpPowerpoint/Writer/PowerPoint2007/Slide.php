@@ -827,9 +827,10 @@ class Slide extends AbstractPart
             $objWriter->writeAttribute('indent', SharedDrawing::pixelsToEmu($paragraph->getAlignment()->getIndent()));
             $objWriter->writeAttribute('lvl', $paragraph->getAlignment()->getLevel());
 
+            // Line Spacing
             $objWriter->startElement('a:lnSpc');
             $objWriter->startElement('a:spcPct');
-            $objWriter->writeAttribute('val', $paragraph->getSpacing()->getSpacing());
+            $objWriter->writeAttribute('val', $paragraph->getSpacing());
             $objWriter->endElement();
             $objWriter->endElement();
 
