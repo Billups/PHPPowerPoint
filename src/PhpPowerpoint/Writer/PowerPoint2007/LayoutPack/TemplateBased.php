@@ -152,7 +152,9 @@ class TemplateBased extends AbstractLayoutPack
             "\PhpOffice\PhpPowerpoint\Writer\PowerPoint2007\LayoutPack\TemplateBased",
             "cmpMaster"
         ));
-
+        
+        ksort($this->layouts);
+        
         // Close package
         $package->close();
     }
