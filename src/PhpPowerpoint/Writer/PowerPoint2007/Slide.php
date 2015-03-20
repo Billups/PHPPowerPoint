@@ -827,6 +827,12 @@ class Slide extends AbstractPart
             $objWriter->writeAttribute('indent', SharedDrawing::pixelsToEmu($paragraph->getAlignment()->getIndent()));
             $objWriter->writeAttribute('lvl', $paragraph->getAlignment()->getLevel());
 
+            $objWriter->startElement('a:lnSpc');
+            $objWriter->startElement('a:spcPct');
+            $objWriter->writeAttribute('val', $paragraph->getSpacing()->getSpacing());
+            $objWriter->endElement();
+            $objWriter->endElement();
+
             // Bullet type specified?
             if ($paragraph->getBulletStyle()->getBulletType() != Bullet::TYPE_NONE) {
                 // a:buFont

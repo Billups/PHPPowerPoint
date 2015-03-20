@@ -21,6 +21,7 @@ use PhpOffice\PhpPowerpoint\ComparableInterface;
 use PhpOffice\PhpPowerpoint\Style\Alignment;
 use PhpOffice\PhpPowerpoint\Style\Bullet;
 use PhpOffice\PhpPowerpoint\Style\Font;
+use PhpOffice\PhpPowerpoint\Style\Spacing;
 
 /**
  * \PhpOffice\PhpPowerpoint\Shape\RichText\Paragraph
@@ -49,6 +50,13 @@ class Paragraph implements ComparableInterface
     private $font;
 
     /**
+     * Spacing
+     *
+     * @var \PhpOffice\PhpPowerpoint\Style\Spacing
+     */
+    private $spacing;
+
+    /**
      * Bullet style
      *
      * @var \PhpOffice\PhpPowerpoint\Style\Bullet
@@ -71,6 +79,7 @@ class Paragraph implements ComparableInterface
         $this->richTextElements = array();
         $this->alignment        = new Alignment();
         $this->font             = new Font();
+        $this->spacing          = new Spacing();
         $this->bulletStyle      = new Bullet();
     }
 
@@ -117,6 +126,30 @@ class Paragraph implements ComparableInterface
     public function setFont(Font $pFont = null)
     {
         $this->font = $pFont;
+
+        return $this;
+    }
+
+    /**
+     * Get spacing
+     *
+     * @return \PhpOffice\PhpPowerpoint\Style\Spacing
+     */
+    public function getSpacing()
+    {
+        return $this->spacing;
+    }
+
+    /**
+     * Set spacing
+     *
+     * @param  \PhpOffice\PhpPowerpoint\Style\Spacing               $pFont Spacing
+     * @throws \Exception
+     * @return \PhpOffice\PhpPowerpoint\Shape\RichText\Paragraph
+     */
+    public function setSpacing(Spacing $pSpacing = null)
+    {
+        $this->spacing = $pSpacing;
 
         return $this;
     }
