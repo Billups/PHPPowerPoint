@@ -277,7 +277,6 @@ class PowerPoint2007 implements WriterInterface
             }
 
             // Add media
-            $_imgCache = array();
             for ($i = 0; $i < $this->getDrawingHashTable()->count(); ++$i) {
                 $shape = $this->getDrawingHashTable()->getByIndex($i);
                 if ($shape instanceof DrawingShape) {
@@ -287,20 +286,14 @@ class PowerPoint2007 implements WriterInterface
                         $imagePath         = substr($imagePath, 6);
                         $imagePathSplitted = explode('#', $imagePath);
 
-                        if ( !isset( $_imgCache[ $imagePath ] ) ) {
-                            $imageZip = new \ZipArchive();
-                            $imageZip->open($imagePathSplitted[0]);
-                            $_imgCache[ $imagePath ] = $imageZip->getFromName($imagePathSplitted[1]);
-                            $imageZip->close();
-                            unset($imageZip);
-                        }
-                        $imageContents = $_imgCache[ $imagePath ];
+                        $imageZip = new \ZipArchive();
+                        $imageZip->open($imagePathSplitted[0]);
+                        $imageContents = $imageZip->getFromName($imagePathSplitted[1]);
+                        $imageZip->close();
+                        unset($imageZip);
                         
                     } else {
-                        if ( !isset( $_imgCache[ $imagePath ] ) ) {
-                             $_imgCache[ $imagePath ] = file_get_contents( $imagePath );
-                        }
-                        $imageContents = $_imgCache[ $imagePath ];
+                        $imageContents = file_get_contents( $imagePath );
                     }
 
                     $objZip->addFromString('ppt/media/' . str_replace(' ', '_', $shape->getIndexedFilename()), $imageContents);
