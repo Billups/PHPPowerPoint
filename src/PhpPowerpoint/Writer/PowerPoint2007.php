@@ -20,6 +20,7 @@ namespace PhpOffice\PhpPowerpoint\Writer;
 use PhpOffice\PhpPowerpoint\HashTable;
 use PhpOffice\PhpPowerpoint\PhpPowerpoint;
 use PhpOffice\PhpPowerpoint\Shape\Drawing as DrawingShape;
+use PhpOffice\PhpPowerpoint\Shape\Placeholder;
 use PhpOffice\PhpPowerpoint\Shape\MemoryDrawing as MemoryDrawingShape;
 use PhpOffice\PhpPowerpoint\Shape\Chart as ChartShape;
 use PhpOffice\PhpPowerpoint\Writer\PowerPoint2007\AbstractLayoutPack;

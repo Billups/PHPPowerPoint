@@ -20,6 +20,7 @@ namespace PhpOffice\PhpPowerpoint;
 use PhpOffice\PhpPowerpoint\GeometryCalculator;
 use PhpOffice\PhpPowerpoint\Shape\Chart;
 use PhpOffice\PhpPowerpoint\Shape\Drawing;
+use PhpOffice\PhpPowerpoint\Shape\Placeholder;
 use PhpOffice\PhpPowerpoint\Shape\Group;
 use PhpOffice\PhpPowerpoint\Shape\Line;
 use PhpOffice\PhpPowerpoint\Shape\RichText;
@@ -201,6 +202,19 @@ class Slide implements ComparableInterface, ShapeContainerInterface
     public function createDrawingShape()
     {
         $shape = new Drawing();
+        $this->addShape($shape);
+
+        return $shape;
+    }
+
+    /**
+     * Create placeholder shape
+     *
+     * @return \PhpOffice\PhpPowerpoint\Shape\Placeholder
+     */
+    public function createPlaceholderShape()
+    {
+        $shape = new Placeholder();
         $this->addShape($shape);
 
         return $shape;

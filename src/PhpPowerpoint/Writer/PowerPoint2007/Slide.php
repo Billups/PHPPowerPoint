@@ -19,6 +19,7 @@ namespace PhpOffice\PhpPowerpoint\Writer\PowerPoint2007;
 
 use PhpOffice\PhpPowerpoint\Shape\AbstractDrawing;
 use PhpOffice\PhpPowerpoint\Shape\Chart as ShapeChart;
+use PhpOffice\PhpPowerpoint\Shape\Placeholder;
 use PhpOffice\PhpPowerpoint\Shape\Group;
 use PhpOffice\PhpPowerpoint\Shape\Line;
 use PhpOffice\PhpPowerpoint\Shape\RichText;
@@ -145,6 +146,8 @@ class Slide extends AbstractPart
                 $this->writeShapePic($objWriter, $shape, $shapeId);
             } elseif ($shape instanceof Group) {
                 $this->writeShapeGroup($objWriter, $shape, $shapeId);
+            } elseif ($shape instanceof Placeholder) {
+                $this->writeShapePlaceholder($objWriter, $shape, $shapeId);
             }
         }
 
@@ -350,7 +353,7 @@ class Slide extends AbstractPart
         if ($shape->hasHyperlink()) {
             $this->writeHyperlink($objWriter, $shape);
         }
-        
+
         $objWriter->endElement();
 
         // p:cNvPicPr
@@ -474,7 +477,7 @@ class Slide extends AbstractPart
         if ($shape->hasHyperlink()) {
             $this->writeHyperlink($objWriter, $shape);
         }
-        
+
         $objWriter->endElement();
 
         // p:cNvSpPr
@@ -512,11 +515,11 @@ class Slide extends AbstractPart
         $objWriter->startElement('a:prstGeom');
         $objWriter->writeAttribute('prst', 'rect');
         $objWriter->endElement();
-        
+
         if ($shape->getFill()) {
             $this->writeFill($objWriter, $shape->getFill());
         }
-        
+
         if ($shape->getBorder()->getLineStyle() != Border::LINE_NONE) {
             $this->writeBorder($objWriter, $shape->getBorder(), '');
         }
@@ -571,14 +574,14 @@ class Slide extends AbstractPart
                 $objWriter->writeAttribute('lnSpcReduction', (int)($shape->getLineSpaceReduction() * 1000));
             }
         }
-        
+
         $objWriter->endElement();
 
         $objWriter->endElement();
 
         // a:lstStyle
         $objWriter->writeElement('a:lstStyle', null);
-        
+
         // Write paragraphs
         $this->writeParagraphs($objWriter, $shape->getParagraphs());
 
@@ -1036,6 +1039,54 @@ class Slide extends AbstractPart
         }
 
         $objWriter->endElement();
+
+        $objWriter->endElement();
+    }
+
+    /**
+     * Write Placeholder
+     *
+     * @param  \PhpOffice\PhpPowerpoint\Shared\XMLWriter $objWriter XML Writer
+     * @param  \PhpOffice\PhpPowerpoint\Shape\Placeholder       $pH     Placeholder
+     * @throws \Exception
+     */
+    protected function writeShapePlaceholder(XMLWriter $objWriter, Placeholder $pH, $shapeId)
+    {
+        $objWriter->startElement('p:sp');
+            $objWriter->startElement('p:nvSpPr');
+                $objWriter->startElement('p:cNvPr');
+                $objWriter->writeAttribute('id', $shapeId);
+                $objWriter->writeAttribute('name', "Content Placeholder {$shapeId}");
+                $objWriter->endElement();
+
+                $objWriter->startElement('p:cNvSpPr');
+                    $objWriter->startElement('a:spLocks');
+                    $objWriter->writeAttribute('noGrp', '1');
+                    $objWriter->endElement();
+                $objWriter->endElement();
+
+                $objWriter->startElement('p:nvPr');
+                    $objWriter->startElement('p:ph');
+                    $objWriter->writeAttribute('idx', $shapeId);
+                    $objWriter->endElement();
+                $objWriter->endElement();
+            $objWriter->endElement();
+
+            $objWriter->startElement('p:spPr');
+            $objWriter->endElement();
+
+            $objWriter->startElement('p:txBody');
+                $objWriter->startElement('a:bodyPr');
+                $objWriter->endElement();
+                $objWriter->startElement('a:lstStyle');
+                $objWriter->endElement();
+                $objWriter->startElement('a:p');
+                    $objWriter->startElement('a:endParaRPr');
+                    $objWriter->writeAttribute('lang', 'en-US');
+                    $objWriter->writeAttribute('dirty', '0');
+                    $objWriter->endElement();
+                $objWriter->endElement();
+            $objWriter->endElement();
 
         $objWriter->endElement();
     }
