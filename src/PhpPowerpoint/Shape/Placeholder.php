@@ -27,6 +27,13 @@ use PhpOffice\PhpPowerpoint\Style\Border;
 class Placeholder extends AbstractShape implements ComparableInterface
 {
     /**
+     * The id of the placeholder object
+     *
+     * @var int
+     */
+    private $placeholderId;
+
+    /**
      * Unique name
      *
      * @var string
@@ -45,12 +52,33 @@ class Placeholder extends AbstractShape implements ComparableInterface
     }
 
     /**
+     * Get $placeholderId
+     *
+     * @return int $placeholderId
+     */
+    public function getPlaceholderId()
+    {
+        return $this->placeholderId;
+    }
+
+    /**
+     * Set $placeholderId
+     *
+     * @param int $placeholderId
+     */
+    public function setPlaceholderId( $placeholderId )
+    {
+        $this->placeholderId = $placeholderId;
+        return $this;
+    }
+
+    /**
      * Get hash code
      *
      * @return string Hash code
      */
     public function getHashCode()
     {
-        return md5($this->uniqueName . parent::getHashCode() . __CLASS__);
+        return md5($this->placeholderId . $this->uniqueName . parent::getHashCode() . __CLASS__);
     }
 }

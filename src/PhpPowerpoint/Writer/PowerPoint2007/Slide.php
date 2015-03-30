@@ -1067,12 +1067,28 @@ class Slide extends AbstractPart
 
                 $objWriter->startElement('p:nvPr');
                     $objWriter->startElement('p:ph');
-                    $objWriter->writeAttribute('idx', $shapeId);
+                    $objWriter->writeAttribute('idx', $pH->getPlaceholderId() );
                     $objWriter->endElement();
                 $objWriter->endElement();
             $objWriter->endElement();
 
             $objWriter->startElement('p:spPr');
+                if ($pH->getWidth() > 0 && $pH->getHeight() > 0) {
+                    // a:xfrm
+                    $objWriter->startElement('a:xfrm');
+                        // a:off
+                        $objWriter->startElement('a:off');
+                        $objWriter->writeAttribute('x', SharedDrawing::pixelsToEmu($pH->getOffsetX()));
+                        $objWriter->writeAttribute('y', SharedDrawing::pixelsToEmu($pH->getOffsetY()));
+                        $objWriter->endElement();
+
+                        // a:ext
+                        $objWriter->startElement('a:ext');
+                        $objWriter->writeAttribute('cx', SharedDrawing::pixelsToEmu($pH->getWidth()));
+                        $objWriter->writeAttribute('cy', SharedDrawing::pixelsToEmu($pH->getHeight()));
+                        $objWriter->endElement();
+                    $objWriter->endElement();
+                }
             $objWriter->endElement();
 
             $objWriter->startElement('p:txBody');
@@ -1083,7 +1099,6 @@ class Slide extends AbstractPart
                 $objWriter->startElement('a:p');
                     $objWriter->startElement('a:endParaRPr');
                     $objWriter->writeAttribute('lang', 'en-US');
-                    $objWriter->writeAttribute('dirty', '0');
                     $objWriter->endElement();
                 $objWriter->endElement();
             $objWriter->endElement();
